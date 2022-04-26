@@ -129,7 +129,7 @@ src folder
       ```
 
     - Note that the div as a className instead of class. In react all classes have to be className because 'class' is protected.
-    - You can type js directly into this pseudo html
+    - You can type js directly into this pseudo html (JSX)
 
   - App.css
     - We can delete everything from here. We don't have those divs anymore
@@ -166,7 +166,7 @@ Babel
 
 - JavaScript transcompiler that is used to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript that can be run by older JavaScript engines
 
-# Components and JSX
+# Part 3: Components and JSX
 
 In App.js the function App is a functional component
 
@@ -276,3 +276,101 @@ There are two ways to make a component
         }
     }
     ```
+
+# Part 4: Props, Default Props, and Prop Types
+
+Properties (props) can be passed to a component
+
+Example of props being passed to AddItem. `text` and `number` are props:
+
+```
+<AddItem text="stuff" number={2} />
+```
+
+Props in functions:
+
+- To access the props we must define a parameter called `props` and now the we can use the props variable to access the properties passed through. This, by default, will be a JavaScript object:
+
+  ```
+  function AddItem(props) {
+    const value = props.text
+    const anotherValue = props.number
+    return(
+      <form>
+        <input type="text" id="text-form" value={value} />
+      </form>
+    )
+  }
+  ```
+
+- You can also omit the first part of the props by deconstructing the props in the parameters of the function:
+
+  ```
+  function AddItem({ text, number }) {
+    const value = text;
+    const number = number;
+  ```
+
+- Props are read only. They can not be changed from inside the component that they're being passed to. If you've deconstructed the props, you can edit them as they're actually a copy of the original props. Even still, this is not a good practice.
+
+- Default Props:
+
+- If the props are deconstructed, you can set the default prop the same as you would set a default paramater in any JavaScript:
+
+  ```
+  function AddItem({ text, number=5 }){
+    ...
+  }
+  ```
+
+- Otherwise they must be set after the function's close
+
+  ```
+  function AddItem(props){
+    ...
+  }
+
+  AddItem.defaultProps = {
+    number: 5,
+  }
+  ```
+
+Props in Classes:
+
+- We create the class and then define the constructor
+
+  ```
+  class Info extends React.Component {
+    constructor(props){
+      super(props);
+    }
+    ...
+  ```
+
+- `constructor` is called with props being passed.
+- `super(props);` must be called to call the constructor of the class that you're inheriting from. `React.Component` has it's own constructor which sets up the actual component. It is manually called when you override the constructor inside the child Class. The same `props` must be sent from the `constructor` to the `super` constructor so you don't run into errors.
+
+- Whenever you're not inside the constructor and you want to access the `prop` you must use the `this`keyword.
+
+  ```
+  const title = this.props.title;
+  ```
+
+- Just like with the functional components, the props are read only and can't be modified.
+
+Prop Types:
+
+- Must be imported
+
+  ```
+  import { PropTypes } from "prop-types";
+  ```
+
+- Can be used to ensure only specific input is considered.
+
+  ```
+  AddItem.PropTypes = {
+    number: PropTypes.number,
+    text: PropTypes.string,
+  };
+  ```
