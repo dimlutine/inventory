@@ -303,7 +303,7 @@ Props in functions:
   }
   ```
 
-- You can also omit the first part of the props by deconstructing the props in the parameters of the function:
+- You can also omit the first part of the props by destructuring the props in the parameters of the function:
 
   ```
   function AddItem({ text, number }) {
@@ -311,11 +311,11 @@ Props in functions:
     const number = number;
   ```
 
-- Props are read only. They can not be changed from inside the component that they're being passed to. If you've deconstructed the props, you can edit them as they're actually a copy of the original props. Even still, this is not a good practice.
+- Props are read only. They can not be changed from inside the component that they're being passed to. If you've destructured the props, you can edit them as they're actually a copy of the original props. Even still, this is not a good practice.
 
 - Default Props:
 
-- If the props are deconstructed, you can set the default prop the same as you would set a default paramater in any JavaScript:
+- If the props are destructured, you can set the default prop the same as you would set a default paramater in any JavaScript:
 
   ```
   function AddItem({ text, number=5 }){
@@ -374,3 +374,107 @@ Prop Types:
     text: PropTypes.string,
   };
   ```
+
+# State and useState
+
+State is an object of a set of observable properties that control the behavior of the component.
+
+State is destroyed when the website is reloaded. It is only stored on the frontend
+
+Hook
+
+- A function that's provided by React that you can use to 'hook' into and modify its behavior
+
+useState
+To import:
+`import { useState } from "react";`
+useState should be a const when used in a function. Then use square brackets `[]` and define two variables, the variable that will store the state and the name of the function that you're going to use to update this state. It is a good practice to name them like `[thing, setThing]`. Inside of `useState` you define the default state `useState("defaultString")`.
+
+    ```
+    const [title, setTitle] = useState("");
+    ```
+
+To update the state, simply call the function with the updated value.
+
+    ```
+    function ButtonState() {
+      const [count, setCount] = useState(0);
+
+      const updateCountClicked = () => {
+        setCount(count + 1);
+      };
+      return (
+        <div>
+          <p>Counter: {count}</p>
+          <button onClick={updateCountClicked}>Update Count </button>
+        </div>
+      );
+    }
+    ```
+
+Passing state to child components
+
+```
+function ButtonState() {
+const [title, setTitle] = useState("");
+const [count, setCount] = useState(0);
+
+const updateTitleClicked = () => {
+  setTitle("Title");
+};
+
+const updateCountClicked = () => {
+  setCount(count + 1);
+};
+
+return (
+  <div>
+    <Data title={title} count={count} />
+    <button onClick={updateTitleClicked}>Update Title </button>
+    <button onClick={updateCountClicked}>Update Count </button>
+  </div>
+);
+}
+
+const Data = (props) => {
+return (
+  <div>
+    <p>Title: {props.title}</p>
+    <p>Count: {props.count}</p>
+  </div>
+);
+};
+```
+
+Using State inside a Class based component
+
+- Because we're in a class we'll have to prepose our variables and function calls with `this`.
+- Define what you want to be held by state. Store an object in `this.state` inside the constructor on the line after `super(props)` inside a Class.
+  ```
+    this.state = {
+      count:0
+    };
+  ```
+- State is called with `this.state.count`
+  ```
+    <p>Count: {this.state.count} </p>
+  ```
+- Updating the state
+
+  - There are two ways to bind the function to the class
+
+    - You can bind the function in the constructor after the state object is declared. If you bind the function you can simply name it from within the return. Note, we're naming the function in the return. We're not using parenthesis at the end like we will for the next way.
+
+      ```
+      buttonPressed() {
+        this.setState({ count: this.state.count + 1 });
+        }
+      this.buttonPressed = this.buttonPressed.bind(this)
+      ...
+      <button onClick={this.buttonPressed}>Click Me</button>
+      ```
+
+    - We can also just call the function by using an arrow function. Note that now we're calling the function with the parenthesis included at the end of `buttonPressed()`. You do not need to put every state here if you're not using them.
+      ```
+      <button onClick={() => this.buttonPressed()}>Click Me</button>
+      ```
