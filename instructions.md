@@ -375,7 +375,7 @@ Prop Types:
   };
   ```
 
-# Part 5 State and useState
+# Part 5: State and useState
 
 State is an object of a set of observable properties that control the behavior of the component.
 
@@ -498,3 +498,65 @@ Global Snippets
   - The first part `"Import useState"` is the title of our snippet.
   - `imrs` is what we will type to run the body
   - `"import { useState } from 'react';"` is what will output if we type the prefix while in a .js file
+
+# Part 6: Forms and Events
+
+- To make a button _not_ refresh the page pass it `type="button"`
+
+- onChange
+
+  - `onChange` is an event that can pass a function. In the following `e` is the event that occured. It will allow us to access what the user types into the field.
+    ```
+    <input type="text" id="name-field" value={name} onChange={(e) => setName(e.target.value)} />
+    ```
+
+- onClick
+
+  - `onClick` is an event handler that occurs when an object is clicked.
+  - `onClick` will call a function created above the return
+    ```
+    const searchButtonPressed = () => {
+    console.log(name);
+    };
+    return (
+      ...
+      <button type="button" onClick={searchButtonPressed}>
+            Search
+          </button>
+      ...
+    ```
+
+- Sending data back as props
+
+  - We can't simply call the data in from the component. We must use a callback. We can use this to update the parent component from the child.
+
+    - Callbacks allow you to call a function to update the state in a component.
+
+    ```
+    //App.js
+    ...
+    import { useState } from 'react';
+    function App() {
+      const [data, setData] = useState({});
+
+      const updateData = (searchParams) => {
+        setData(searchParams);
+      }
+      return (
+        <div className="App">
+          <SearchBar callback={ updateData}/>
+          <p>{"data" in data ? data["data"] : "no data to display"}</p>
+        </div>
+      );
+    }
+
+    //SearchBar.js
+    ...
+    function SearchBar(props) {
+      const searchButtonPressed = () => {
+        props.callback({ data: "test" });
+      };
+    ,,,
+    ```
+
+    - In the above code the `callback` is sent to SearchBar from App.js in props. SearchBar sends the JavaScript object `{ data: "test" }`. which we display using the ternary operator `{"data" in data ? data["data"] : "no data to display"}`. This reads if `"data"` is in `data` then present `data["data"]`, otherwise present `"no data to display"`.
