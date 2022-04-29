@@ -375,7 +375,7 @@ Prop Types:
   };
   ```
 
-# Part 4 State and useState
+# Part 5 State and useState
 
 State is an object of a set of observable properties that control the behavior of the component.
 
