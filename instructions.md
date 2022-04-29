@@ -375,7 +375,7 @@ Prop Types:
   };
   ```
 
-# State and useState
+# Part 4 State and useState
 
 State is an object of a set of observable properties that control the behavior of the component.
 
@@ -478,3 +478,23 @@ Using State inside a Class based component
       ```
       <button onClick={() => this.buttonPressed()}>Click Me</button>
       ```
+
+# Part 5.5: Global Snippets
+
+Global Snippets
+
+- We're going to be typing a lot of the same stuff over and over, let's make it easy with snippits.
+
+  - In VSCode we're going to go to File->Preferences->User Snippets
+  - Now we can create our own custom snippet to import useState for us by creating a JSON object:
+
+  ```
+  "Import useState": {
+  	"prefix": "imrs",
+  	"body": "import { useState } from 'react';"
+  }
+  ```
+
+  - The first part `"Import useState"` is the title of our snippet.
+  - `imrs` is what we will type to run the body
+  - `"import { useState } from 'react';"` is what will output if we type the prefix while in a .js file
