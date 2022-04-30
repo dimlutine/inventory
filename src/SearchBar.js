@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function SearchBar(props) {
   const [name, setName] = useState("");
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState(0);
   const [type, setType] = useState("");
   const [brand, setBrand] = useState("");
   const searchButtonPressed = () => {
