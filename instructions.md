@@ -560,3 +560,96 @@ Global Snippets
     ```
 
     - In the above code the `callback` is sent to SearchBar from App.js in props. SearchBar sends the JavaScript object `{ data: "test" }`. which we display using the ternary operator `{"data" in data ? data["data"] : "no data to display"}`. This reads if `"data"` is in `data` then present `data["data"]`, otherwise present `"no data to display"`.
+
+# Part 7: Displaying Data Dynamically
+
+We can store data in an array by adding a JavaScript Object to our state.
+
+```
+  const [data, setData] = useState({
+  items: [],
+});
+```
+
+- We can now store the data.
+  ```
+    <AddItem addItem={addItemToData} />
+  ```
+- In the above `AddItem` is a component. `addItem` is sent via props and stores data via the callback `addItemToData`:
+
+  ```
+  const addItemToData = (item) => {
+    let Items = data["Items"];
+    items.push(item);
+    setData({ items: items });
+  };
+  ```
+
+  - `items` is first assigned `data["items"]` (stored in state). `item` (argument) is pushed to `items` which is then set as the current state using `setData(currentData)
+
+- We can clear the data after the button is pressed in AddItem.js where the `addItemButtonPressed` function is called:
+  ```
+  const addItemButtonPressed = () => {
+    props.addItem({
+      name: name,
+      price: price,
+      type: type,
+      brand: brand,
+    });
+    setName("");
+    setPrice(0);
+    setType("");
+    setBrand("");
+  };
+  ```
+
+Displaying the data
+
+```
+function ItemsDisplay(props) {
+  return (
+    <div>
+      {props.items.map((item) => {
+        return <p>Name: {item.name}</p>;
+      })}
+    </div>
+  );
+}
+
+```
+
+- In the above `ItemsDisplay` takes in `props` and returns `props.items.map((item) => return <p>Name: {item.name}</p>)`. The `map` method creates a new array populated with the results of the function `(item) => return <p>Name: {item.name}</p>` on every element in `props.items`.
+
+- We can add a numberic identifier by adding the following to `addItemToData` in App.js
+  ```
+  item.id = items.length + 1;
+  ```
+- We can call it in ItemsDisplay.js
+  ```
+    <p>Item Number: {item.id}</p>
+  ```
+- We can rearrange things a bit to make them look a little less sloppy by creating a function and calling `map` on it:
+
+  ```
+  function ItemsDisplay(props) {
+      const showItem = (item) => {
+          return (
+              <div>
+                <p>Item Number: {item.id}</p>
+                <p>Name: {item.name}</p>
+                <p>Price: {item.price}</p>
+                <p>Type: {item.type}</p>
+                <p>Brand: {item.brand}</p>
+              </div>
+          );
+      };
+
+      return (
+          <div>
+          {props.items.map(showItem)}
+          </div>
+      );
+  }
+
+  export default ItemsDisplay;
+  ```
