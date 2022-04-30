@@ -653,3 +653,79 @@ function ItemsDisplay(props) {
 
   export default ItemsDisplay;
   ```
+
+# Part 8: Styling Components
+
+Global Style Sheets
+
+- Index.css and App.css are examples of Global Style Sheets
+  - You simply import them as so
+    ```
+      import "./App.css";
+    ```
+
+CSS Modules
+
+- To make the css file only apply to a specific module you must rename it to name.module.css. So if it was originally App.css you would rename it to App.module.css
+  - You will also import the stylesheet a little differently. You'll import the object `module`
+    ```
+    import styles from "./App.module.css";
+    ```
+  - The `className` will also be called a little differently. You'll prefix the class name with `styles`:
+    ```
+    <p className={styles.blue}>test </p>
+    ```
+
+React Library - Styled Components
+
+- Must be installed from console
+
+  ```
+  yarn add styled-components
+  ```
+
+  or
+
+  ```
+  npm install --save styled-components
+  ```
+
+  - Now it can be imported
+
+    ```
+      import styled from "styled-components";
+    ```
+
+  - To use styled components you create a `const` with `styled.tag` and then add two backticks. Inside the backticks you'll define the styles for the component. Then use it like a component:
+    ```
+      const Title = styled.h1`
+        color: blue;
+      `
+      <Title>Title goes here </Title>
+    ```
+  - You can pass props to the styled component. The JavaScript will be called with `${(props) => (JavaScript Goes Here)}`
+    ```
+    const Title = styled.h1` color: ${(props) => (props.color ? props.color : "red" )}; ` <Title>Title goes here </Title>
+    ```
+
+In-line styles
+
+- Pretty similar to html in-line. Within the tag you'll add `style={{tag:value}}`
+  ```
+    <div className="row mt-3" style={{ color: "red"}}>Test</div>
+  ```
+
+Bootstrap
+
+- Is a css library with a bunch of prebuilt stuff
+- Should be installed from console:
+  ```
+  npm install react-bootstrap bootstrap
+  ```
+- Now we can globally import bootstrap in index.js
+
+  ```
+    import 'bootstrap/dist/css/bootstrap.min.css';
+  ```
+
+- Read the Bootstrap docs for info on how to use Bootstrap
