@@ -729,3 +729,39 @@ Bootstrap
   ```
 
 - Read the Bootstrap docs for info on how to use Bootstrap
+
+# Part 9: Filtering/Searching for Data
+
+We can filter the data in the App component. This way we only pass the data that we want to be displayed to the ItemsDisplay component. In the following `items` is sent to `ItemsDisplay` with the value `filterData(data["items"])`, which calls `filterData` sending `data["items"]` as the arg. `filterData` first checks to see if `filters` (state) is empty by checking the `length` of its `keys`. If it is, it returns `data`. Then it runs through a `for` loop for each `item of data`. `if` `filters.name` is an empty string and `item.name` isn't the same as `filters.name` it will `continue` to the next iteration of the loop. This skips over `filteredData.push(item)` so that item doesn't get pushed. If it passes all of the logic, the item does get pushed and then finally the whole `filteredData` array is returned.
+
+```
+  const filterData = (data) => {
+    const filteredData = [];
+    if (Object.keys(filters).length === 0) {
+      return data;
+    }
+    for (const item of data) {
+      if (filters.name !== "" && item.name !== filters.name) {
+        continue;
+      }
+      if (
+        parseFloat(filters.price) !== 0 &&
+        parseFloat(filters.price) < parseFloat(item.price)
+      ) {
+        continue;
+      }
+      if (filters.type !== "" && item.type !== filters.type) {
+        continue;
+      }
+      if (filters.brand !== "" && item.brand !== filters.brand) {
+        continue;
+      }
+      filteredData.push(item);
+    }
+    return filteredData;
+  };
+```
+
+```
+<ItemsDisplay items={filterData(data["items"])} />
+```

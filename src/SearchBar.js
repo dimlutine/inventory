@@ -30,7 +30,7 @@ function SearchBar(props) {
           />
         </div>
         <div className="col">
-          <label htmlFor="price-field">Price:</label>
+          <label htmlFor="price-field">Max Price:</label>
           <input
             className="form-control"
             type="number"

@@ -37,7 +37,8 @@ function AddItem(props) {
             className="form-control"
             type="number"
             id="price-field"
-            value={price == 0 ? "" : price}
+            value={price}
+            // value={price == 0 ? "" : price}
             onChange={(e) => setPrice(e.target.value)}
           />
         </div>

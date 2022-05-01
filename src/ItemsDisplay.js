@@ -4,7 +4,7 @@ function ItemsDisplay(props) {
       <tr>
         <th scope="row">{item.id}</th>
         <td>{item.name}</td>
-        <td>{item.price}</td>
+        <td>$ {item.price}</td>
         <td>{item.type}</td>
         <td>{item.brand}</td>
       </tr>
