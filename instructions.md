@@ -765,3 +765,72 @@ We can filter the data in the App component. This way we only pass the data that
 ```
 <ItemsDisplay items={filterData(data["items"])} />
 ```
+
+# Part 10: JSON server, HTTP, & Fetch
+
+JSON server is an npm package that allows you to make a mock-api
+
+- We install JSON server globally via the terminal with the `-g` flag
+
+  ```
+  npm install -g json-server
+  ```
+
+- Once JSON server is installed we can create our database
+
+```
+  touch db.json
+```
+
+- Add items to db.json
+
+  ```
+  {
+    "items":[]
+  }
+  ```
+
+- To run JSON Server cd to the root folder and run in terminal:
+  ```
+    json-server db.json
+  ```
+  - or to run on a different port
+  ```
+    json-server -p 4000 db.json
+  ```
+
+Fetch and HTTP Resquests
+
+- We can send a request to a URL using `fetch`. It takes a URI and a JavaScript Object as args.
+
+  - The JavaScript Object can define the request method with `method`.
+    - Core HTTP Methods
+      - `get` - Usually gets information. This is the default.
+      - `post` - Creates or sends information to the server.
+      - `put` - Updates something on the server.
+      - `delete` - Deletes something from the server.
+  - The `headers` will define the format of the data.
+  - `body` will send our payload `JSON.stringify(item)` will convert it to a string.
+
+  ```
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    };
+
+    fetch("http://localhost:4000/items", requestOptions);
+  ```
+
+  - `.then()` can be chained onto the end of `fetch`. It will wait for `fetch` to run, then run the function sent as an arg.
+
+  ```
+  fetch("http://localhost:4000/items", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        items.push(item);
+        setData({ items: items });
+      });
+  ```
