@@ -263,6 +263,7 @@ There are two ways to make a component
         ```
 
 - Class
+
   - Class components extend React.Component
   - First we import React
     ```
@@ -274,6 +275,37 @@ There are two ways to make a component
         render() {
             ...
         }
+    }
+    ```
+
+- You can convert a function component like `Clock` (below) to a class in five steps:
+
+  ```
+  function Clock(props) {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {props.date.toLocaleTimeString()}.</h2>
+      </div>
+    );
+  }
+  ```
+
+  - Create an ES6 class, with the same name, that extends React.Component.
+    Add a single empty method to it called `render()`.
+    Move the body of the function into the `render()` method.
+    Replace `props` with `this.props` in the `render()` body.
+    Delete the remaining empty function declaration.
+    ```
+    class Clock extends React.Component {
+      render() {
+        return (
+          <div>
+            <h1>Hello, world!</h1>
+            <h2>It is {this.props.date.toLocaleTimeString()}.</h2>
+          </div>
+        );
+      }
     }
     ```
 
@@ -834,3 +866,99 @@ Fetch and HTTP Resquests
         setData({ items: items });
       });
   ```
+
+# Part 11: Lifecycle Methods and useEffect
+
+<a href="https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">Life Cycle Cheat Sheet</a>
+
+Mounting
+
+- Mount: Mounting is the process of outputting the visual representation of the component into the final UI representation. In a browser, that would mean outputting a React Element into an actual DOM element.
+
+- These methods are called in the following order when an instance of a component is being created and inserted into the DOM:
+
+  - `constructor()`
+  - `static getDerivedStateFromProps()`
+  - `render()`
+  - `componentDidMount()`
+
+Updating
+
+- An update can be caused by changes to props or state. These methods are called in the following order when a component is being re-rendered:
+
+  - `static getDerivedStateFromProps()`
+  - `shouldComponentUpdate()`
+  - `render()`
+  - `getSnapshotBeforeUpdate()`
+  - `componentDidUpdate()`
+
+Unmounting
+
+- This method is called when a component is being removed from the DOM:
+
+  - `componentWillUnmount()`
+
+What is a hook?
+
+- A hook is a function provided by React that allows you to modify the default behavior of a component
+  - By default there is no state to a component, but if we use the hook `useState` we can add state to the component and we tell it to update every time the state
+
+`useEffect` is written inside the body of the component function before the `return`. There can be multiple instances of `useEffect`
+
+- It is essentially the same as `componentDidMount` and `componentDidUpdate`. Whenever a component mounts or updates the function inside `useEffect` will run.
+
+  ```
+  useEffect(() => {
+    console.log("use effect");
+  });
+  ```
+
+- Cleanup Operation
+
+  - Whatever function you `return` in useEffect will run when the component is about to unmount. Just like `componentWillUnmount`.
+
+    ```
+      useEffect(() => {
+        console.log("use effect");
+
+        return () => {
+          console.log("clean up")
+        }
+      });
+    ```
+
+- To make `useEffect` only run in certain situations, you will pass a dependency list.
+
+  - A dependency list is a list of variables that cause `useEffect` to run when they are updated.
+  - To only run when a component is mounted use an empty list for the dependency list:
+
+    ```
+      useEffect(() => {
+        console.log("use effect");
+
+        return () => {
+          console.log("clean up");
+        };
+      }, []);
+    ```
+
+  - To only run when a variable (`data` in this example) changes:
+
+    ```
+      useEffect(() => {
+        console.log("use effect");
+
+        return () => {
+          console.log("clean up");
+        };
+      }, [data]);
+    ```
+
+  - Use `useEffect` to load db on component creation
+    ```
+      useEffect(() => {
+        fetch("http://localhost:4000/items")
+          .then((response) => response.json())
+          .then((data) => setData({ items: data }));
+      }, []);
+    ```
