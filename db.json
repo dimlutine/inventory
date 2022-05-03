@@ -3,23 +3,16 @@
     {
       "name": "Badonkers",
       "price": "69",
-      "type": "Quality",
-      "brand": "On",
-      "id": 1
-    },
-    {
-      "name": "",
-      "price": 0,
-      "type": "",
-      "brand": "",
-      "id": 2
-    },
-    {
-      "name": "Badonkers",
-      "price": "69",
       "type": "420",
       "brand": "69420",
       "id": 3
+    },
+    {
+      "name": "Tiddies",
+      "price": "420",
+      "type": "69",
+      "brand": "42069",
+      "id": 4
     }
   ]
 }

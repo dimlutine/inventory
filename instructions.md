@@ -962,3 +962,38 @@ What is a hook?
           .then((data) => setData({ items: data }));
       }, []);
     ```
+
+# Part 12: Deleting Items
+
+- To delete an item, we'll need to remove the item from both the front end and the backend.
+- We'll create a button in our table
+  ```
+    <button onClick={() => deleteItem(item)} className="btn btn-danger">
+            Delete
+    </button>
+  ```
+- And a function to handle the delete
+  ```
+    const deleteItem = (item) => {
+      const items = data["items"];
+      const requestOptions = {
+        method: "DELETE",
+      };
+      fetch(`http://localhost:4000/items/${item.id}`, requestOptions).then(
+        (response) => {
+          if (response.ok) {
+            const idx = items.indexOf(item);
+            items.splice(idx, 1);
+            setData({ items: items });
+          }
+        }
+      );
+    };
+  ```
+- And pass that function to the props
+  ```
+    <ItemsDisplay
+          deleteItem={deleteItem}
+          items={filterData(data["items"])}
+        />
+  ```
